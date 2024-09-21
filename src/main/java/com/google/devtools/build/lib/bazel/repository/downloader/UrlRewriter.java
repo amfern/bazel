@@ -190,12 +190,22 @@ public class UrlRewriter {
       // If there's an allow entry, add it to the set to return and continue
       if (isAllowMatched(consider.url())) {
         toReturn.add(consider);
+
+        // add back the original url to make rewrite feature behave like mirror
+        if (consider.rewritten()) {
+          toReturn.add(RewrittenURL.create(url, false));
+        }
         continue;
       }
 
       // If there's no block that matches the domain, add it to the set to return and continue
       if (!isBlockMatched(consider.url())) {
         toReturn.add(consider);
+
+        // add back the original url to make rewrite feature behave like mirror
+        if (consider.rewritten()) {
+          toReturn.add(RewrittenURL.create(url, false));
+        }
       }
     }
 
